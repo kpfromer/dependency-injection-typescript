@@ -1,0 +1,44 @@
+{
+  "name": "dependency-injection-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:dev": "nodemon",
+    "test": "jest",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "reflect-metadata": "^0.1.12",
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.107",
+    "@types/jest": "^22.2.3",
+    "nodemon": "^1.17.3",
+    "ts-node": "^4.1.0",
+    "tsconfig-paths": "^3.3.0",
+    "tslint": "5.3.2",
+    "ts-jest": "^21.2.4",
+    "jest": "^22.4.3",
+    "typescript": "^2.8.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage"
+  }
+}
