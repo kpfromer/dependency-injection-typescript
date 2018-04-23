@@ -1,4 +1,4 @@
-import { InjectKey } from './inject';
+import { getInjectMetadataForParam, InjectKey } from './inject';
 import { TokenProvider } from './types/token.provider';
 import { Provider } from './provider';
 
