@@ -27,29 +27,12 @@ export const Injector = new class {
     target
   ): (token: any, index: number) => string | Type<any> {
     return (token, index) => {
-      const tokenString = this.getInjectMetadataForParam(target, index);
+      const tokenString = getInjectMetadataForParam(target, index);
       if (tokenString) {
         return tokenString;
       }
       return token;
     };
-  }
-
-  private getInjectMetadataForParam(
-    target: any,
-    parameterIndex: number
-  ): string | undefined {
-    const metadata = this.getInjectMetadata(target);
-
-    if (metadata) {
-      return metadata.get(parameterIndex);
-    }
-
-    return undefined;
-  }
-
-  private getInjectMetadata(target: any): Map<number, string> | null {
-    return Reflect.getMetadata(InjectKey, target) as Map<number, string>;
   }
 
   resolveArray() {
