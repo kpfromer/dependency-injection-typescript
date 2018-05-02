@@ -17,9 +17,9 @@ describe('Injector', () => {
         constructor() {}
       }
 
-      const decotator = () => (target) => {};
+      const decorator = () => (target) => {};
 
-      @decotator()
+      @decorator()
       class Foobar {
         constructor(/* Inject CoolToken */ public coolToken: string, private foo: Foo) {}
         getName() {
