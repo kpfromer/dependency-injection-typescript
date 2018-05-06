@@ -7,6 +7,7 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "test": "jest",
+    "test:cov": "jest --coverage",
     "build": "rimraf dist && tsc -p tsconfig.json",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "format": "prettier --write \"**/*.ts\""
