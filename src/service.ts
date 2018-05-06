@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { SERVICE_METADATA } from './constants';
 
 export const isService = (target): boolean => {
-  return Reflect.getMetadata(SERVICE_METADATA, target);
+  return !!Reflect.getMetadata(SERVICE_METADATA, target);
 };
 
 export const Service = (): GenericClassDecorator<Type<object>> => {
