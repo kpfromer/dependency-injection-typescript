@@ -1,0 +1,1 @@
+export const SERVICE_METADATA = Symbol('service_metadata');
