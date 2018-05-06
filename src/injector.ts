@@ -76,9 +76,9 @@ export class InjectorItem {
     this.tokenProviders.set(provider.name, provider);
   }
 
-  resolveDeps(token): (Type<any> | Provider<any>)[] {
+  resolveDeps(token): Set<Type<any> | Provider<any>> {
     if (isArray(token) && token.length === 0) {
-      return token;
+      return new Set([token]);
     }
 
     const provider = this.tokenProviders.get(token);
@@ -97,8 +97,8 @@ export class InjectorItem {
 
     return deps.reduce(
       (prevArray, currDep) =>
-        [...prevArray, ...this.resolveDeps(currDep).filter(subDep => !prevArray.includes(subDep))],
-      [tokenItem]
+        new Set([...prevArray, ...this.resolveDeps(currDep)]),
+      new Set([tokenItem])
     );
   }
 }

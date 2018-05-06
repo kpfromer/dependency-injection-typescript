@@ -177,28 +177,7 @@ describe('Injector', () => {
 
       const deps = injector.resolveDeps(C);
 
-      expect(deps.sort()).toEqual([A, B, C, mockProvider].sort());
-    });
-
-    it('should remove duplicate dependencies', () => {
-
-      const decorator = () => (target) => {};
-
-      @decorator()
-      class A {}
-      @decorator()
-      class B {
-        constructor(public aService: A, public duplicateAService: A) {}
-      }
-
-      injector.addService(A);
-      injector.addService(B);
-
-      jest.spyOn(injector, 'resolveInjectParameters').mockImplementation((target) => (token, index) => token);
-
-      const deps = injector.resolveDeps(B);
-
-      expect(deps.sort()).toEqual([A, B].sort());
+      expect(deps).toEqual(new Set([A, B, C, mockProvider]));
     });
 
     it('should error if a dependency doesn\'t exist', () => {
