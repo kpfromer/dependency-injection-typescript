@@ -1,5 +1,4 @@
 import { Provider } from './provider';
-import { Injector } from './injector';
 
 describe('Provider', () => {
   it('should throw error if token is not type of TokenProvider', () => {
@@ -14,13 +13,22 @@ describe('Provider', () => {
   });
 
   describe('getValue', () => {
+    let mockInjector;
+
+    beforeEach(() => {
+      mockInjector = {
+        resolve: jest.fn(),
+        resolveArray: jest.fn()
+      };
+    });
+
     it('should get resolve value from ValueProvider', () => {
       const valueProvider = new Provider({
         provide: 'Token',
         useValue: 'Cool new Token!'
       });
 
-      expect(valueProvider.getValue()).toBe('Cool new Token!');
+      expect(valueProvider.getValue(mockInjector)).toBe('Cool new Token!');
     });
 
     it('should get value from ClassProvider', () => {
@@ -29,16 +37,16 @@ describe('Provider', () => {
 
       const mockUser = jest.fn();
 
-      jest.spyOn(Injector, 'resolve').mockReturnValue(mockUser);
+      mockInjector.resolve.mockReturnValue(mockUser);
 
       const classProvider = new Provider({
         provide: NewUser,
         useClass: User
       });
 
-      const value = classProvider.getValue();
+      const value = classProvider.getValue(mockInjector);
 
-      expect(Injector.resolve).toHaveBeenCalledWith(User);
+      expect(mockInjector.resolve).toHaveBeenCalledWith(User);
       expect(value).toEqual(mockUser);
     });
 
@@ -49,7 +57,7 @@ describe('Provider', () => {
         }
       }
 
-      jest.spyOn(Injector, 'resolveArray').mockReturnValue((token, index) => {
+      mockInjector.resolveArray.mockReturnValue((token, index) => {
         if (token === 'Adj') {
           return 'cool';
         } else if (token === User) {
@@ -63,15 +71,15 @@ describe('Provider', () => {
         deps: ['Adj', User]
       });
 
-      const value = classProvider.getValue();
+      const value = classProvider.getValue(mockInjector);
 
-      expect(Injector.resolveArray).toHaveBeenCalled();
+      expect(mockInjector.resolveArray).toHaveBeenCalled();
       expect(value).toEqual('kyle is cool');
     });
 
     it('should return factory value even if there are no deps', () => {
       const mockMapFunction = jest.fn();
-      jest.spyOn(Injector, 'resolveArray').mockReturnValue(mockMapFunction);
+      mockInjector.resolveArray.mockReturnValue(mockMapFunction);
 
       const classProvider = new Provider({
         provide: 'LameFactory',
@@ -79,7 +87,7 @@ describe('Provider', () => {
         deps: []
       });
 
-      const value = classProvider.getValue();
+      const value = classProvider.getValue(mockInjector);
 
       expect(mockMapFunction).not.toHaveBeenCalled();
       expect(value).toBe('hello, world!');

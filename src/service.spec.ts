@@ -1,15 +1,12 @@
-import { Injector } from './injector';
+import 'reflect-metadata';
 import { Service } from './service';
+import { SERVICE_METADATA } from './constants';
 
 describe('Service', () => {
-  beforeEach(() => {
-    jest.spyOn(Injector, 'addService');
-  });
-
   it('should add class to Injector', () => {
     @Service()
     class NewService {}
 
-    expect(Injector.addService).toHaveBeenCalledWith(NewService);
+    expect(Reflect.getMetadata(SERVICE_METADATA, NewService)).toBe(true);
   });
 });

@@ -1,14 +1,19 @@
 import 'reflect-metadata';
 import * as inject from './inject';
+import { Provider } from './provider';
 import * as provider from './provider';
 import { InjectorItem } from './injector';
-import { getInjectMetadataForParam, Inject } from './inject';
+import { getInjectMetadataForParam} from './inject';
 
 describe('Injector', () => {
   let injector: InjectorItem;
 
   beforeEach(() => {
     injector = new InjectorItem();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('resolve', () => {
@@ -137,6 +142,88 @@ describe('Injector', () => {
       };
 
       expect(handler).toThrowError('[1] Unresolved parameter of type: NotAService');
+    });
+  });
+
+  describe('resolveDeps', () => {
+    it('should flatten dependency map', () => {
+
+      const decorator = () => (target) => {};
+
+      @decorator()
+      class A {}
+      @decorator()
+      class B {
+        constructor(public coolService: A) {}
+      }
+      @decorator()
+      class C {
+        constructor(public bService: B, public injectParam) {}
+      }
+
+      injector.addService(A);
+      injector.addService(B);
+      injector.addService(C);
+
+      const mockProvider = new Provider({
+        provide: 'token',
+        useValue: 'item'
+      });
+
+      console.log(mockProvider.name);
+
+      injector.addProvider(mockProvider);
+
+      jest.spyOn(injector, 'resolveInjectParameters').mockImplementation((target) => (token, index) => target === C && index === 1 ? 'token' : token);
+
+      console.log(injector.resolveDeps(C));
+
+      const deps = injector.resolveDeps(C);
+
+      expect(deps.sort()).toEqual([A, B, C, mockProvider].sort());
+    });
+
+    it('should remove duplicate dependencies', () => {
+
+      const decorator = () => (target) => {};
+
+      @decorator()
+      class A {}
+      @decorator()
+      class B {
+        constructor(public aService: A, public duplicateAService: A) {}
+      }
+
+      injector.addService(A);
+      injector.addService(B);
+
+      jest.spyOn(injector, 'resolveInjectParameters').mockImplementation((target) => (token, index) => token);
+
+      const deps = injector.resolveDeps(B);
+
+      expect(deps.sort()).toEqual([A, B].sort());
+    });
+
+    it('should error if a dependency doesn\'t exist', () => {
+
+      class NotAddedService {}
+
+      class A {
+        constructor(public invalidService: NotAddedService) {}
+      }
+
+      const handlerA = () => injector.resolveDeps(A);
+
+      jest.spyOn(injector, 'resolveInjectParameters').mockReturnValue((token, index) => index === 0 ? 'invalid Inject' : undefined);
+
+      class B {
+        constructor(invalidService) {}
+      }
+
+      const handlerB = () => injector.resolveDeps(B);
+
+      expect(handlerA).toThrowError(TypeError);
+      expect(handlerB).toThrowError(TypeError);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { Injector } from './injector';
+import { Injector, InjectorItem } from './injector';
 import {
   Factory,
   instanceOfClassProvider,
@@ -23,6 +23,8 @@ export class Provider<T> {
   constructor(provider: TokenProvider<T>) {
     this.name = provider.provide;
 
+    this.deps = [];
+
     if (instanceOfValueProvider(provider)) {
       this.type = ProviderType.VALUE;
       this.value = provider.useValue;
@@ -38,16 +40,20 @@ export class Provider<T> {
     }
   }
 
-  getValue(): T | Type<T> {
+  getDeps() {
+    return this.deps;
+  }
+
+  getValue(injector: InjectorItem): T | Type<T> {
     if (this.type === ProviderType.VALUE) {
       return this.value as T;
     } else if (this.type === ProviderType.CLASS) {
-      return Injector.resolve(this.value as Type<T>);
+      return injector.resolve(this.value as Type<T>);
     } else if (this.type === ProviderType.FACTORY) {
-      const deps = this.deps.map(Injector.resolveArray());
+      const deps = this.deps.map(injector.resolveArray());
       return (this.value as Factory<T>)(...deps);
     } else {
-      throw new Error('Unknown Type!');
+      throw new TypeError('Unknown Type!');
     }
   }
 }
