@@ -43,6 +43,6 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage",
-    "resetMocks": true
+    "restoreMocks": true
   }
 }
