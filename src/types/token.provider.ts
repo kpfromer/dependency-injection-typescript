@@ -36,6 +36,10 @@ export function instanceOfFactoryProvider(
   return 'useFactory' in object;
 }
 
+export function isTokenProvider(object: any): object is TokenProvider<any> {
+  return instanceOfValueProvider(object) || instanceOfClassProvider(object) || instanceOfFactoryProvider(object);
+}
+
 export type TokenProvider<T> =
   | ClassProvider<T>
   | ValueProvider<T>
