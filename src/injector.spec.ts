@@ -170,13 +170,9 @@ describe('Injector', () => {
         useValue: 'item'
       });
 
-      console.log(mockProvider.name);
-
       injector.addProvider(mockProvider);
 
       jest.spyOn(injector, 'resolveInjectParameters').mockImplementation((target) => (token, index) => target === C && index === 1 ? 'token' : token);
-
-      console.log(injector.resolveDeps(C));
 
       const deps = injector.resolveDeps(C);
 
