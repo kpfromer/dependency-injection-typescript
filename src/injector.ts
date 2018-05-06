@@ -52,6 +52,16 @@ export class InjectorItem {
     };
   }
 
+  addServiceOrToken(provider: TokenProvider<any> | Type<any> | Provider<any>) {
+    if (isTokenProvider(provider)) {
+      this.addProvider(new Provider(provider));
+    } else if (provider instanceof Provider) {
+      this.addProvider(provider);
+    } else {
+      this.addService(provider);
+    }
+  }
+
   // store services within the injector
   addService(target: Type<any>) {
     this.services.push(target);

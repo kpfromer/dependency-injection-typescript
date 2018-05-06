@@ -3,6 +3,7 @@ import * as inject from './inject';
 import { Provider } from './provider';
 import * as provider from './provider';
 import { InjectorItem } from './injector';
+import * as tokenProvider from './types/token.provider';
 import { getInjectMetadataForParam} from './inject';
 
 describe('Injector', () => {
@@ -220,6 +221,37 @@ describe('Injector', () => {
 
       expect(handlerA).toThrowError(TypeError);
       expect(handlerB).toThrowError(TypeError);
+    });
+  });
+
+  describe('addServiceOrToken', () => {
+    it('should add Provider', () => {
+      jest.spyOn(tokenProvider, 'isTokenProvider').mockReturnValue(false);
+      jest.spyOn(injector, 'addProvider');
+
+      const mockProvider = new Provider({
+        provide: 'mock',
+        useValue: 'mock'
+      });
+
+      injector.addServiceOrToken(mockProvider);
+
+      expect(injector.addProvider).toHaveBeenCalledWith(mockProvider);
+    });
+
+    it('should add Service', () => {
+      jest.spyOn(tokenProvider, 'isTokenProvider').mockReturnValue(false);
+      jest.spyOn(injector, 'addService');
+
+      class AService {}
+
+      injector.addServiceOrToken(AService);
+
+      expect(injector.addService).toHaveBeenCalledWith(AService);
+    });
+
+    it('should add plain token provider', () => {
+      jest.spyOn(tokenProvider, 'isTokenProvider').mockReturnValue(true);
     });
   });
 });
