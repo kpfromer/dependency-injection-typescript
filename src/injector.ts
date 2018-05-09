@@ -1,4 +1,4 @@
-import { getInjectMetadataForParam} from './inject';
+import { getInjectMetadataForParam } from './inject';
 import { isTokenProvider, TokenProvider } from './types/token.provider';
 import { Provider } from './provider';
 import { isArray } from 'lodash';
@@ -102,5 +102,3 @@ export class InjectorItem {
     );
   }
 }
-
-export const Injector = new InjectorItem();

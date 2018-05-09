@@ -8,80 +8,122 @@
 This is a simple dependency injection library.
 
 ## Usage
+
+First create a module
 ```typescript
-import 'reflect-metadata';
-import { Service } from './service';
-import { Injector } from './injector';
-import { Inject, InjectKey } from './inject';
+@Module({})
+export class AppModule {}
+```
 
-Injector.addToken({
-  provide: 'TestToken',
-  useValue: 'big boy kyle'
-});
-
-Injector.addToken({
-  provide: 'NameToken',
-  useValue: new class {
-  get() {
-  return 'hello';
- } }()});
-
-class User {
-  username = 'kyle pfromer';
+Then add some dependencies
+```typescript
+@Service()
+class NameGenerator {
+  createName() {
+    return 'John Doe';
+  }
 }
 
-class NewUser {
-  username = 'i am edited';
-  getName() {
-  return `${this.name} is cool`;
- }  constructor(@Inject('factory') private name: string) {}
+@Module({
+  providers: [NameGenerator]
+})
+export class AppModule {}
+```
+
+Then add a controller class (a class that uses your dependencies)
+```typescript
+@Service()
+class NameGenerator {
+  createName() {
+    return 'John Doe';
+  }
 }
 
-Injector.addToken({
-  provide: User,
-  useClass: NewUser
-});
+@Controller()
+class Conversation {
+  constructor(private readonly nameGenerator: NameGenerator) {}
 
-Injector.addToken({
-  provide: 'factory',
-  useFactory: () => 'i am a factory'
-});
+  startTalking() {
+    console.log(`Hello ${this.nameGenerator.createName()}! How's it going?`);
+  }
+}
 
-Injector.addToken({
-  provide: 'UsefulFactory',
-  useFactory: (user: User, factory) => {
-  return `hello ${user.getName()} ${factory}`;
- },  deps: [User, 'factory']
-});
+@Module({
+  providers: [NameGenerator]
+})
+export class AppModule {}
+```
 
-// Without having the service decorator the class will not be defined in the global metadata map
-// thus Injector will not be able to finds its constructor properties for it
+Modules can import other modules:
+```typescript
+@Service()
+class NameGenerator {
+  createName() {
+    return 'John Doe';
+  }
+}
+
+@Module({
+  providers: [NameGenerator],
+  exports: [NameGenerator]
+})
+class NameModule {}
+
+@Controller()
+class Conversation {
+  constructor(private readonly nameGenerator: NameGenerator) {}
+
+  startTalking() {
+    console.log(`Hello ${this.nameGenerator.createName()}! How's it going?`);
+  }
+}
+
+@Module({
+  imports: [NameModule]
+})
+export class AppModule {}
+```
+
+Note: modules **cannot** export controllers.
+
+Example in context:
+```typescript
 @Service()
 class Foo {
-  constructor(@Inject('TestToken') private name: string) {}
+  constructor() {}
+
   getName() {
-  return this.name;
+  return this.personName();
+ }
+  private personName() {
+  return 'John Doe';
  }}
 
 @Service()
-class Bar {
-  constructor(@Inject('NameToken') private foo: Foo) {}
-  test() {
-  return `hello, world. I am ${this.foo.get()}!`;
- }}
+class CoolService {
+ constructor(@Inject('TestToken') private readonly name, private readonly foo: Foo) {}
+ getVal() { return `Hey ${this.name}, what's with ${this.foo.getName()}?`; }}
 
-@Service()
-class Foobar {
-  constructor(
-  @Inject('factory') public factory: string,
-  public foo: Foo,
-  public bar: User,
-  @Inject('UsefulFactory') public coolFactory
-  ) {}
+@Module({
+ providers: [CoolService, Foo, {
+   provide: 'TestToken',
+   useValue: 'Kyle Pfromer'
+ }],
+ exports: [CoolService]
+})
+export class AppModule {}
+
+
+@Controller()
+class test {
+ constructor(public coolService: CoolService) {
+ }
 }
 
-const foobar = Injector.resolve<Foobar>(Foobar);
+@Module({
+ imports: [AppModule], controllers: [test]
+})
+class TestMod {}
 
-console.log(foobar.factory); // i am a factory
-console.log(foobar.coolFactory); // hello i am a factory is cool i am a factory
+console.log(TestMod.getController(test).coolService.getVal());
 ```
