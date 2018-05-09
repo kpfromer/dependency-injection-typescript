@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { isService, Service } from './service';
-import { SERVICE_METADATA } from './constants';
+import { SERVICE_METADATA } from '../constants';
 
 
 describe('isService', () => {

@@ -1,8 +1,8 @@
-import { InjectorItem } from '../injector';
-import { Provider } from '../provider';
+import { InjectorItem } from '../injector/injector';
+import { Provider } from '../provider/provider';
 import { get } from 'lodash';
 import { isTokenProvider } from '../types/token.provider';
-import { isService } from '../service';
+import { isService } from '../service/service';
 import { isController } from '../controller/controller';
 import { MODULE_METADATA } from '../constants';
 

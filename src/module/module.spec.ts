@@ -1,6 +1,6 @@
 import { Module } from './module';
 import { CONTROLLER_METADATA, MODULE_METADATA, SERVICE_METADATA } from '../constants';
-import * as injector from '../injector';
+import * as injector from '../injector/injector';
 
 describe('Module', () => {
 

@@ -1,4 +1,5 @@
 import 'reflect-metadata';
-export * from './service';
-export * from './injector';
-export * from './inject';
+
+export * from './service/service';
+export * from './injector/injector';
+export * from './inject/inject';

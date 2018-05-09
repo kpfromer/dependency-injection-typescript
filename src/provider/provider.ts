@@ -1,11 +1,11 @@
-import { InjectorItem } from './injector';
+import { InjectorItem } from '../injector/injector';
 import {
   Factory,
   instanceOfClassProvider,
   instanceOfFactoryProvider,
   instanceOfValueProvider,
   TokenProvider
-} from './types/token.provider';
+} from '../types/token.provider';
 
 enum ProviderType {
   VALUE,

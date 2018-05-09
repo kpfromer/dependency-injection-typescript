@@ -1,12 +1,12 @@
 import 'reflect-metadata';
-import * as inject from './inject';
-import { Provider } from './provider';
-import * as provider from './provider';
+import * as inject from '../inject/inject';
+import { getInjectMetadataForParam } from '../inject/inject';
+import * as provider from '../provider/provider';
+import { Provider } from '../provider/provider';
 import { InjectorItem } from './injector';
-import * as tokenProvider from './types/token.provider';
-import { getInjectMetadataForParam} from './inject';
+import * as tokenProvider from '../types/token.provider';
 
-describe('Injector', () => {
+describe('InjectorItem', () => {
   let injector: InjectorItem;
 
   beforeEach(() => {

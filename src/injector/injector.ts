@@ -1,6 +1,6 @@
-import { getInjectMetadataForParam } from './inject';
-import { isTokenProvider, TokenProvider } from './types/token.provider';
-import { Provider } from './provider';
+import { getInjectMetadataForParam } from '../inject/inject';
+import { isTokenProvider, TokenProvider } from '../types/token.provider';
+import { Provider } from '../provider/provider';
 import { isArray } from 'lodash';
 
 // TODO: find a better name
