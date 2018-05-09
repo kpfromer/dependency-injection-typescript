@@ -1,5 +1,3 @@
-import { Injector } from '../injector';
-
 export type ValueProvider<T> = {
   provide: string;
   useValue: T;
