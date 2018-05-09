@@ -7,7 +7,7 @@ import { isController } from '../controller/controller';
 import { MODULE_METADATA } from '../constants';
 
 interface IModule {
-  getController<T>(): new (...args) => T;
+  getController<T>(contoller: new (...args) => T): T;
   getExports(): (Type<any> | Provider<any>)[];
 }
 
