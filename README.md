@@ -1,4 +1,3 @@
-
 # dependency-injection-typescript
 [![Build Status](https://travis-ci.org/kpfromer/dependency-injection-typescript.svg?branch=master)](https://travis-ci.org/kpfromer/dependency-injection-typescript)
 [![Coverage Status](https://coveralls.io/repos/github/kpfromer/dependency-injection-typescript/badge.svg?branch=master)](https://coveralls.io/github/kpfromer/dependency-injection-typescript?branch=master)
@@ -130,3 +129,7 @@ class TestMod {}
 
 console.log(ModuleLoader.getController(TestMod, test).coolService.getVal().coolService.getVal());
 ```
+
+## License
+
+  inject-it-mod-it is [MIT licensed](LICENSE).
