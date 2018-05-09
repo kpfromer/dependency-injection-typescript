@@ -1,4 +1,4 @@
-import { Injector, InjectorItem } from './injector';
+import { InjectorItem } from './injector';
 import {
   Factory,
   instanceOfClassProvider,
