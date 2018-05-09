@@ -25,10 +25,7 @@ export const isModule = (target: any): target is IModule => {
 };
 
 export const Module = (metadata: ModuleMetadata) => {
-  // TODO: should build deps ahead of time to save time (to stop resolve everytime you need something)
   return (target: Type<object>) => {
-
-    // TODO Check that imports providers and controllers are valid! (using metadata)
 
     const injector = new InjectorItem();
 
@@ -57,12 +54,9 @@ export const Module = (metadata: ModuleMetadata) => {
       if (!isService(exportedProvider) && !isTokenProvider(exportedProvider)) {
         throw new TypeError(`Invalid exported service/provider ${exportedProvider.name} in module: ${target.name}`);
       }
-      
-      // TODO if is exports it must be in providers
+
       return new Set([...prevSet, ...injector.resolveDeps(exportedProvider)]);
     }, new Set([])));
-
-    // TODO: if providers is attached
 
     Reflect.defineMetadata(MODULE_METADATA, true, target);
 
