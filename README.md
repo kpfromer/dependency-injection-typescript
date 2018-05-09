@@ -49,9 +49,12 @@ class Conversation {
 }
 
 @Module({
-  providers: [NameGenerator]
+  providers: [NameGenerator],
+  controllers: [Conversation]
 })
-export class AppModule {}
+class AppModule {}
+
+ModuleLoader.getController(AppModule, Conversation).startTalking();
 ```
 
 Modules can import other modules:
@@ -125,5 +128,5 @@ class test {
 })
 class TestMod {}
 
-console.log(TestMod.getController(test).coolService.getVal());
+console.log(ModuleLoader.getController(TestMod, test).coolService.getVal().coolService.getVal());
 ```
