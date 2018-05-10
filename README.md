@@ -1,4 +1,4 @@
-# dependency-injection-typescript
+# inject-it-mod-it
 [![NPM](https://nodei.co/npm/inject-it-mod-it.png)](https://nodei.co/npm/inject-it-mod-it/)
 [![Build Status](https://travis-ci.org/kpfromer/inject-it-mod-it.svg?branch=master)](https://travis-ci.org/kpfromer/inject-it-mod-it)
 [![Coverage Status](https://coveralls.io/repos/github/kpfromer/inject-it-mod-it/badge.svg?branch=master)](https://coveralls.io/github/kpfromer/inject-it-mod-it?branch=master)
