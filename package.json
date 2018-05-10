@@ -1,6 +1,6 @@
 {
   "name": "inject-it-mod-it",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A module based dependency injection system.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,11 @@
     "format": "prettier --write \"**/*.ts\""
   },
   "keywords": ["dependency", "injection", "module", "modules"],
-  "author": "",
+  "author": "Kyle Pfromer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kpfromer/inject-it-mod-it"
+  },
   "license": "MIT",
   "dependencies": {
     "reflect-metadata": "^0.1.12",
