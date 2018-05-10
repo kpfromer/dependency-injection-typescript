@@ -1,7 +1,7 @@
 # dependency-injection-typescript
 [![NPM](https://nodei.co/npm/inject-it-mod-it.png)](https://nodei.co/npm/inject-it-mod-it/)
-[![Build Status](https://travis-ci.org/kpfromer/dependency-injection-typescript.svg?branch=master)](https://travis-ci.org/kpfromer/dependency-injection-typescript)
-[![Coverage Status](https://coveralls.io/repos/github/kpfromer/dependency-injection-typescript/badge.svg?branch=master)](https://coveralls.io/github/kpfromer/dependency-injection-typescript?branch=master)
+[![Build Status](https://travis-ci.org/kpfromer/inject-it-mod-it.svg?branch=master)](https://travis-ci.org/kpfromer/inject-it-mod-it)
+[![Coverage Status](https://coveralls.io/repos/github/kpfromer/inject-it-mod-it/badge.svg?branch=master)](https://coveralls.io/github/kpfromer/inject-it-mod-it?branch=master)
 
 ## Description
 
