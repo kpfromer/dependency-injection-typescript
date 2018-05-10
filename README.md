@@ -131,6 +131,49 @@ class TestMod {}
 console.log(ModuleLoader.getController(TestMod, test).coolService.getVal().coolService.getVal());
 ```
 
+Module take the following parameters:
+```typescript
+@Module({
+  imports: [/* Other Modules */],
+  controllers: [/* Controllers */],
+  providers: [/* services or token providers */],
+  exports: [/* services or token providers */]
+})
+```
+
+#### You can have custom token providers
+
+All of the following providers are valid
+
+```typescript
+class ToBeOverriden {}
+
+class NewClass {}
+
+const ValueProvider = {
+  provide: 'NameToken',
+  useValue: 'John Doe'
+};
+const ClassProvider = {
+  provide: ToBeOverriden,
+  useClass: NewClass
+};
+const FactoryProivder = {
+  provide: 'Factory'
+  useFactory: (name: string) => `Hello ${name}`
+  deps: ['NameToken']
+};
+
+@Module({
+  providers: [
+    ValueProvider,
+    ClassProvider,
+    FactoryProivder
+  ]
+})
+class ExampleModule {}
+```
+
 ## License
 
   inject-it-mod-it is [MIT licensed](LICENSE).
