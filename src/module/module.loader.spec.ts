@@ -1,10 +1,10 @@
-import * as module from './module';
+import * as moduledec from './module';
 import { ModuleLoader } from './module.loader';
 
 describe('ModuleLoader', () => {
   describe('getController', () => {
     it('should throw error if module given is invalid', () => {
-      jest.spyOn(module, 'isModule').mockReturnValue(false);
+      jest.spyOn(moduledec, 'isModule').mockReturnValue(false);
 
       class InvalidModule {}
       class WantedController {}
@@ -17,7 +17,7 @@ describe('ModuleLoader', () => {
     });
 
     it('should get controller from module', () => {
-      jest.spyOn(module, 'isModule').mockReturnValue(true);
+      jest.spyOn(moduledec, 'isModule').mockReturnValue(true);
 
       const mockController = jest.fn();
 
