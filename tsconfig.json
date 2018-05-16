@@ -5,15 +5,13 @@
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": false,
-    "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./src",
-    "lib": ["dom", "es2017"]
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

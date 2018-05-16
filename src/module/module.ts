@@ -6,12 +6,12 @@ import { isService } from '../service/service';
 import { isController } from '../controller/controller';
 import { MODULE_METADATA } from '../constants';
 
-interface IModule {
+export interface IModule {
   getController<T>(contoller: new (...args) => T): T;
   getExports(): (Type<any> | Provider<any>)[];
 }
 
-type ModuleMetadata = {
+export type ModuleMetadata = {
   imports?: any[],
   providers?: any[],
   controllers?: any[],
@@ -62,9 +62,9 @@ export const Module = (metadata: ModuleMetadata) => {
 
     return class extends target {
 
-      private static injector = injector;
-      private static controllers: any[] = get(metadata, 'controllers', []);
-      private static exportedProviders = exportedProviders;
+      static injector = injector;
+      static controllers: any[] = get(metadata, 'controllers', []);
+      static exportedProviders = exportedProviders;
 
       public static getController<T>(controller: new (...args) => T): T {
         if (this.controllers.includes(controller)) {
