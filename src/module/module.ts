@@ -1,10 +1,10 @@
 import { InjectorItem } from '../injector/injector';
 import { Provider } from '../provider/provider';
 import { get } from 'lodash';
-import { isTokenProvider } from '../types/token.provider';
 import { isService } from '../service/service';
 import { isController } from '../controller/controller';
 import { MODULE_METADATA } from '../constants';
+import { TokenProvider } from '../types/token.provider';
 
 export interface IModule {
   getController<T>(contoller: new (...args) => T): T;
@@ -17,8 +17,6 @@ export type ModuleMetadata = {
   controllers?: any[],
   exports?: any[]
 }
-
-type ModuleDecorator<T> = (target: T) => any;
 
 export const isModule = (target: any): target is IModule => {
   return Reflect.getMetadata(MODULE_METADATA, target);
@@ -64,7 +62,6 @@ export const Module = (metadata: ModuleMetadata) => {
 
       static injector = injector;
       static controllers: any[] = get(metadata, 'controllers', []);
-      static exportedProviders = exportedProviders;
 
       public static getController<T>(controller: new (...args) => T): T {
         if (this.controllers.includes(controller)) {
@@ -75,7 +72,7 @@ export const Module = (metadata: ModuleMetadata) => {
       }
 
       public static getExports() {
-        return this.exportedProviders;
+        return exportedProviders;
       }
     }
   };
